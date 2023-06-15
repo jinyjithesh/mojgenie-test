@@ -15,32 +15,37 @@ export const Home = () => {
   const [sort, setSort] = useState();
   const [MyArray, setMyArray] = useState([]);
   const [sortStatus, setSortStatus] = useState(true);
-const[prePage,setPerPage]=useState(100);
+  const [prePage, setPerPage] = useState(100);
+  const totalnumofpagiatio = Math.ceil(character.length / prePage);
+  const pages = [...Array(totalnumofpagiatio + 1).keys()].slice(1);
+  const [currentPage, SetCurrentPage] = useState(1);
+  const indexOfLastCharacter = currentPage * prePage;
+  const indexOfFirstharacter = indexOfLastCharacter - prePage;
 
-const totalnumofpagiatio=Math.ceil(character.length/prePage)
-const pages=[...Array(totalnumofpagiatio +1).keys()].slice(1);
-const[currentPage,SetCurrentPage]=useState(1);
-const indexOfLastCharacter =currentPage*prePage;
-const indexOfFirstharacter =indexOfLastCharacter-prePage;
+  const visibleOfCharacter = prePage
+    .toString()
+    .slice(indexOfFirstharacter, indexOfLastCharacter);
+  // console.log("visibleOfCharacte",visibleOfCharacter);
+  // console.log("pages",pages);
 
-const visibleOfCharacter =prePage.toString().slice(indexOfFirstharacter,indexOfLastCharacter
-)
-console.log("pages",pages);
-//   const handleChange = (event, value) => {
-//     setPage(value);
-//   };
+  const prevPageHandler = () => {
+    if (currentPage !== 1) SetCurrentPage(currentPage - 1);
+  };
+  const nextPageHandler = () => {
+    if (currentPage !== totalnumofpagiatio) SetCurrentPage(currentPage + 1);
+  };
   const handleSort = () => {
     const dataname = MyArray;
     if (sortStatus) {
-        let sorted = dataname.sort((a, z) => a[1] - z[1]);
-        setMyArray(sorted);
-        setSortStatus(!sortStatus);
+      let sorted = dataname.sort((a, z) => a[1] - z[1]);
+      setMyArray(sorted);
+      setSortStatus(!sortStatus);
     } else {
-        let sorted = dataname.sort((a, z) => z[1] - a[1]);
-        setMyArray(sorted);
-        setSortStatus(!sortStatus);
+      let sorted = dataname.sort((a, z) => z[1] - a[1]);
+      setMyArray(sorted);
+      setSortStatus(!sortStatus);
     }
-  }
+  };
   useEffect(() => {
     const headers = {
       Accept: "application/json",
@@ -90,14 +95,14 @@ console.log("pages",pages);
             <label class="col-sm-2 col-form-label col-form-label-lg">
               Sort By
             </label>
-            <select class="col-sm-10"  onChange={(e) => setQueryn(e.target.value)}placeholder="By Name (dec/asc)">
+            <select
+              class="col-sm-10"
+              onChange={(e) => setQueryn(e.target.value)}
+              placeholder="By Name (dec/asc)"
+            >
               <>
                 {character?.map((s, i) => (
-                  <option
-                    selected
-                   
-                    key={i}
-                  >
+                  <option selected key={i}>
                     {s?.name}
                   </option>
                 ))}
@@ -122,16 +127,16 @@ console.log("pages",pages);
               Gender
             </label>
             <select onChange={(e) => setQueryg(e.target.value)}>
-              <option selected >
-                Male/Female/Any
-              </option>
+              <option selected>Male/Female/Any</option>
               <option value="male">Male</option>
               <option value="female">Female</option>
               <option value="any">Any</option>
             </select>
           </div>
           <div className="col">
-            <button className="btn btn-success" onClick={handleSort}>Submit</button>
+            <button className="btn btn-success" onClick={handleSort}>
+              Submit
+            </button>
           </div>
         </div>
         <hr />
@@ -146,7 +151,7 @@ console.log("pages",pages);
             </tr>
           </thead>
 
-          {character  
+          {character
             ?.filter((d) => {
               if (setQuery === "") {
                 return d;
@@ -164,16 +169,17 @@ console.log("pages",pages);
               ) {
                 return d;
               }
-            })?.filter((d) => {
-                if (setQueryn === "") {
-                  return d;
-                } else if (
-                  d.name.toLocaleLowerCase().includes(queryn.toLocaleLowerCase())
-                ) {
-                  return d;
-                }
-              })
-             
+            })
+            ?.filter((d) => {
+              if (setQueryn === "") {
+                return d;
+              } else if (
+                d.name.toLocaleLowerCase().includes(queryn.toLocaleLowerCase())
+              ) {
+                return d;
+              }
+            })
+
             ?.map((d, i) => (
               <tbody>
                 <tr key={i}>
@@ -192,29 +198,28 @@ console.log("pages",pages);
       </form>
       <div className="row g-3">
         <div className="col">
-       
-     
           {" "}
-   {/* <>
-    {visibleOfCharacter?.map(page=>
-           
-        
-  <span key={page}>{ `${page} |`}</span>
-    
-
-   
-       )} </> */}
-      
-      {visibleOfCharacter}
-     
+          {/* {visibleOfCharacter?.map((page)=>(
+    <p>{page.title}</p>
+   )
+       )}  */}
+          <span onClick={() => prevPageHandler}>prev</span>
+          {pages.map((page) => (
+            <span
+              key={page.id}
+              className={`${currentPage === page ? "active" : ""}`}
+              onClick={() => SetCurrentPage(page)}
+            >{`${page} |`}</span>
+          ))}
+          <span onClick={() => nextPageHandler}>next</span>
         </div>
         <div className="col">
           <label>Limit</label>
-          <select>
+          <select onChange={(e) => setPerPage(e.target.value)}>
             <option selected>10</option>
             <option value="1">10</option>
             <option value="2">20</option>
-            <option value="3">50</option>
+            <option value="3">30</option>
           </select>
         </div>
       </div>
@@ -229,5 +234,4 @@ console.log("pages",pages);
         renderOnZeroPageCount={null}/> */}
     </div>
   );
-
 };
