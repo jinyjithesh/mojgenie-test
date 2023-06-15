@@ -1,0 +1,9 @@
+.readContainer{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30;
+    background-color: rgb(193, 240, 224);
+ 
+}

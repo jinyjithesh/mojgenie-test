@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import "./read.css";
 
 export const Read = () => {
   const [data, setData] = useState([]);
@@ -24,9 +25,13 @@ export const Read = () => {
   }, []);
 
   return (
-    <div className="d-flex w-100 wh-100 justify-content-center align-items-center bg-light">
-      <div className="w-50 boarder bg-whit shadow px-5 pt-3 pb-5 rounded">
-        <h1 className="center">Characters</h1>
+
+    <div className="d-flex w-100 wh-100 justify-content-center align-items-center bg-light ">
+      <div className="w-50 boarder bg-whit shadow px-5 pt-3 pb-5 rounded  align-items-center">
+      <div className="readContainer">
+        <h1 >Characters</h1>
+        </div>
+        
         <form>
           {data.map((p) => (
             <>

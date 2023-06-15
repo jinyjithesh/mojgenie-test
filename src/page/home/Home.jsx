@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
-
+import "./home.css";
 export const Home = () => {
   const [query, setQuery] = useState("");
   const [queryr, setQueryr] = useState("");
@@ -76,7 +76,7 @@ export const Home = () => {
 
   return (
     <div className="d-flex flex-column  justify-content-center ">
-      <h1 className="">Characters</h1>
+      <h1 className="homeContainer">Characters</h1>
       <hr />
       <form>
         <div className="row g-3">
