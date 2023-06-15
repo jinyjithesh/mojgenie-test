@@ -1,7 +1,5 @@
-import { Pagination, Stack, Typography } from "@mui/material";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
+
 import { Link } from "react-router-dom";
 import "./home.css";
 export const Home = () => {
@@ -15,18 +13,20 @@ export const Home = () => {
   const [sort, setSort] = useState();
   const [MyArray, setMyArray] = useState([]);
   const [sortStatus, setSortStatus] = useState(true);
+
   const [prePage, setPerPage] = useState(100);
+
   const totalnumofpagiatio = Math.ceil(character.length / prePage);
   const pages = [...Array(totalnumofpagiatio + 1).keys()].slice(1);
+
   const [currentPage, SetCurrentPage] = useState(1);
+
   const indexOfLastCharacter = currentPage * prePage;
   const indexOfFirstharacter = indexOfLastCharacter - prePage;
 
   const visibleOfCharacter = prePage
     .toString()
     .slice(indexOfFirstharacter, indexOfLastCharacter);
-  // console.log("visibleOfCharacte",visibleOfCharacter);
-  // console.log("pages",pages);
 
   const prevPageHandler = () => {
     if (currentPage !== 1) SetCurrentPage(currentPage - 1);
@@ -45,6 +45,7 @@ export const Home = () => {
       setMyArray(sorted);
       setSortStatus(!sortStatus);
     }
+    
   };
   useEffect(() => {
     const headers = {
@@ -63,12 +64,12 @@ export const Home = () => {
         { headers: headers }
       );
       const characters = await rawCharacters.json();
-      console.log("chs", characters);
+      //   console.log("chs", characters);
       const character = characters.docs;
       setCharacter(character);
-      console.log("ch", character);
+      //   console.log("ch", character);
       const sort = characters.docs;
-      console.log("sort", sort);
+      //   console.log("sort", sort);
     };
 
     fetchData();
@@ -179,7 +180,6 @@ export const Home = () => {
                 return d;
               }
             })
-
             ?.map((d, i) => (
               <tbody>
                 <tr key={i}>
@@ -203,15 +203,19 @@ export const Home = () => {
     <p>{page.title}</p>
    )
        )}  */}
-          <span onClick={() => prevPageHandler}>prev</span>
-          {pages.map((page) => (
-            <span
-              key={page.id}
-              className={`${currentPage === page ? "active" : ""}`}
-              onClick={() => SetCurrentPage(page)}
-            >{`${page} |`}</span>
-          ))}
-          <span onClick={() => nextPageHandler}>next</span>
+          <p>
+            <span onClick={prevPageHandler}>prev</span>
+            {pages.map((page) => (
+              <span
+                key={page}
+                onClick={() => SetCurrentPage(page)}
+                className={`${currentPage === page ? "active" : ""}`}
+              >
+                {`${page} | `}
+              </span>
+            ))}
+            <span onClick={nextPageHandler}>next</span>
+          </p>
         </div>
         <div className="col">
           <label>Limit</label>
@@ -224,14 +228,6 @@ export const Home = () => {
         </div>
       </div>
       <hr />
-
-      {/* <ReactPaginate  breakLabel="..."
-        nextLabel="10 >"
-        // onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        // pageCount={pageCount}
-        previousLabel="< 1"
-        renderOnZeroPageCount={null}/> */}
     </div>
   );
 };
