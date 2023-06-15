@@ -20,13 +20,15 @@ export const Home = () => {
   const pages = [...Array(totalnumofpagiatio + 1).keys()].slice(1);
 
   const [currentPage, SetCurrentPage] = useState(1);
+const recodesPage =10;
+const lastIndex = currentPage * recodesPage;
+const firstIndex = lastIndex-recodesPage;
+const records =character.slice(firstIndex,lastIndex);
+const npage = Math.ceil(character.length / recodesPage)
+const numbers=[...Array(npage + 1).keys()].slice(1);
+console.log("numbers",numbers);
 
-  const indexOfLastCharacter = currentPage * prePage;
-  const indexOfFirstharacter = indexOfLastCharacter - prePage;
-
-  const visibleOfCharacter = prePage
-    .toString()
-    .slice(indexOfFirstharacter, indexOfLastCharacter);
+ 
 
   const prevPageHandler = () => {
     if (currentPage !== 1) SetCurrentPage(currentPage - 1);
@@ -152,7 +154,7 @@ export const Home = () => {
             </tr>
           </thead>
 
-          {character
+          {records
             ?.filter((d) => {
               if (setQuery === "") {
                 return d;
@@ -217,17 +219,41 @@ export const Home = () => {
             <span onClick={nextPageHandler}>next</span>
           </p>
         </div>
+        {/* <nav>
+            <ul>
+                <li>
+                    <a href="#" className="page-link" 
+                    onClick={perPage}>Prev</a>
+                </li>
+                {numbers.map((n,i)=>(
+                    <li>
+                        <a onClick={changPage}
+                         className={`${currentPage === n ? "active" : ""}`} key={i} >
+                            {n}
+                        </a>
+                    </li>
+                ))}
+                <li>
+                    <a onClick={nextPage}>
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav> */}
         <div className="col">
           <label>Limit</label>
           <select onChange={(e) => setPerPage(e.target.value)}>
             <option selected>10</option>
-            <option value="1">10</option>
-            <option value="2">20</option>
-            <option value="3">30</option>
+            <option value="1">20</option>
+            <option value="2">30</option>
+         
           </select>
         </div>
       </div>
       <hr />
     </div>
   );
+//   function perPage(){}
+//   function changPage(){}
+//   function nextPage(){}
 };
